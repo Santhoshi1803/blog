@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="30" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  </head>
+  <body class="other-page">
+
+    {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        {% for category, message in messages %}
+         <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="dashboard-container">
+      {% for post in posts %}
+        <div class="dashboard-post">
+          <h2><strong>TITLE: {{ post.title }}</strong></h2><br>
+          <p><strong>DESCRIPTION: {{ post.description }}</strong></p><br>
+
+          <div class="dashboard-img">
+            <img src="{{ url_for('static', filename=post.image) }}" alt="{{ post.title }}">
+          </div><br>
+
+          <p><strong>Author: {{ post.author }}</strong></p><br>
+
+          <div class="comment-section">
+            <h3><strong>Comments</strong></h3>
+            <div class="comments">
+              {% for comment in comments %}
+                {% if comment.post_id == post.id %}
+                  <div class="comment">
+                    <p><strong>{{ comment.author }}</strong>: {{ comment.text }}</p>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div><br>
+
+            <div class="post-actions">
+              <!-- New comment form -->
+              <form method="POST" action="{{ url_for('comment', blogger_id=post.id) }}">
+                <input type="hidden" name="post_id" value="{{ post.id }}">
+                <textarea name="comment_text" placeholder="Write your comment..." required></textarea>
+                <button class="btn" type="submit">Post Comment</button>
+              </form><br>
+
+              <!-- Like/Unlike -->
+              <form action="{{ url_for('like_post', blogger_id=post.id) }}" method="POST" style="display:inline;" class="like-form">
+                {% if post in liked_posts %}
+                  <button type="submit" class="like-button">❤️</button>
+                {% else %}
+                  <button type="submit" class="like-button">🤍</button>
+                {% endif %}
+                <span>{{ post.likers.count() }} likes</span>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Profile image link -->
+    <div class="user-profile">
+      <a href="{{ url_for('profile') }}">
+        <img src="{{ url_for('static', filename='images/img_avatar2.png') }}" alt="profile" class="profile">
+      </a>
+    </div>
+
+    <!-- Navigation buttons -->
+    <button onclick="history.back()" class="back">Back</button>
+    <div class="button-container">
+      <a href="{{ url_for('index') }}" class="home">Home</a>
+      <a href="{{ url_for('logout') }}" class="new-post">Logout</a>
+      <a href="{{ url_for('home_page') }}" class="new-post">New Post</a>
+    </div>
+
+  </body>
+</html>

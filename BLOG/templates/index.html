@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="refresh" content="30" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body class="home-page">
+  <div class="h1">
+    <h1 style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">BLOGS PLATFORM</h1>
+  </div>
+
+  <div class="topnav">
+    <ul class="nav-items">
+      <li><a class="nav-link" href="{{ url_for('login') }}"><b>Login</b></a></li>
+      <li><a class="nav-link" href="{{ url_for('register') }}"><b>Register</b></a></li>
+    </ul>
+  </div>
+
+  <div class="search-container">
+    <form action="{{ url_for('index') }}" method="get">
+      <input type="search" name="search" placeholder="Search by content or title" value="{{ search }}">
+      <div class="search-button">
+        <button type="submit" class="in-button">Search</button>
+      </div>
+    </form>
+  </div><br>
+
+  <form action="{{ url_for('index') }}" method="get" class="filter-form">
+   <label for="category">Filter by Category:</label>
+     <select name="category" id="category">
+       <option value="">--Select Category--</option>
+       <option value="travel" {% if selected_category == 'travel' %}selected{% endif %}>Travel</option>
+       <option value="food" {% if selected_category == 'food' %}selected{% endif %}>Food</option>
+       <option value="studies" {% if selected_category == 'studies' %}selected{% endif %}>Studies</option>
+       <option value="ai" {% if selected_category == 'ai' %}selected{% endif %}>AI</option>
+     </select>
+   <button type="submit" class="in-button">Filter</button>
+  </form>
+
+  <ul class="nav-items">
+    <li><a class="nav-link" href="{{ url_for('travel') }}"style="color:blue;"><b>Travel</b></a></li>
+    <li><a class="nav-link" href="{{ url_for('food') }}"style="color:blue;"><b>Food</b></a></li>
+    <li><a class="nav-link" href="{{ url_for('studies') }}"style="color:blue;"><b>Studies</b></a></li>
+    <li><a class="nav-link" href="{{ url_for('ai') }}"style="color:blue;"><b>AI</b></a></li>
+  </ul><br>
+  <div class="container">
+    {% for post in posts %}
+      <div class="blog-post">
+        <h2><strong>TITLE: {{ post.title }}</strong></h2><br>
+        <p><strong>DESCRIPTION: {{ post.description }}</strong></p><br>
+        <div class="blog-img">
+          <img src="{{ url_for('static', filename=post.image) }}" alt="{{ post.title }}">
+        </div><br>
+        <p><strong>AUTHOR: {{ post.author }}</strong></p>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

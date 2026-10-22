@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+     <meta charset="UTF-8" />
+     <meta http-equiv="refresh" content="30" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Edit blog Page</title>
+     <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"/>
+  </head>
+{% block content %}
+ <body class="other-page"> 
+  <button onclick="history.back()" class="back">Back</button>
+  {% if error %}
+    <p class="error"><strong>Error:</strong>{{ error }} 
+  {% endif %} 
+  <div class="flash-message">
+    {% with messages = get_flashed_messages(with_categories=True) %}
+    {% for category, message in messages %}
+      {{ message }}
+    {% endfor %}
+    {% endwith %}
+    <div class="edit">
+      <form action="/edit" method="post" class="forms" enctype="multipart/form-data">
+         <label for="title">TITLE</label>
+         <input type="text"id="title" name="title"placeholder="Enter your title here"required><br>
+         <label for="description">DESCRIPTION</label>
+         <textarea name="description" id="description" rows="10"placeholder="Add your contents here" required ></textarea><br>
+         <label for="category">CATEGORY</label>
+         <select name="category">
+             <option value="travel">Travel</option>
+             <option value="food">Food</option>
+             <option value="studies">Studies</option>
+             <option value="ai">AI</option>
+          </select>
+         <label for="image">IMAGE</label>
+         <input type="file" id="image" name="image" accept=image/*>
+         <button class="btn bg-primary" type="submit">Update</button>  
+       </form>
+    </div>
+  </div>>
+</body>
+{% endblock %}
+</html>

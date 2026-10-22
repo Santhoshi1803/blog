@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="UTF-8" />
+     <meta http-equiv="refresh" content="300" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Welcome</title>
+     <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"/>
+     <title>Registration Page</title>
+</head>
+{% block content %}
+ <body class="other-page">
+  <button onclick="history.back()" class="back" >Back</button>
+   <h1 class="header-h1">BLOGS</h1>
+    <form action="/register" method="POST" class="forms">
+      <fieldset>
+        <h2><legend>REGISTER</legend></h2>
+       <label for="username">Username</label><br>
+        <input type="text" name="username"  placeholder="username"required><br>
+        <label for="password">Password</label><br>
+        <input type="password" name="password"  placeholder="password"required><br>
+        <label for="email">Email</label><br>
+        <input type="text" name="email"  placeholder="email"required><br>
+        <label for="role">Select your role</label><br>
+        <select name="role">
+          <option name="">--select--</option>
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select><br>
+        <button type="submit" class="in-button">Submit</button> 
+        {% if error %}
+          <p><strong>Error:</strong>{{error}}
+        {% endif %} 
+        {% with messages = get_flashed_messages(with_categories=True) %}
+          {% if messages %}
+            {% for category, message in messages %}
+             <div class="flash-message">{{ message }}</div> 
+           {% endfor %}
+         {% endif %}
+       {% endwith %}
+      </fieldset>
+    </form>
+ </body>
+{% endblock %}
+</html>

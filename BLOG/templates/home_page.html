@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+     <meta charset="UTF-8" />
+     <meta http-equiv="refresh" content="3600" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>HOME_PAGE</title>
+     <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"/>
+  </head>
+ <body class="other-page">
+   <h1 class="header-h1"style="font-family: Verdana, Geneva, Tahoma, sans-serif; margin-bottom: 10px;">Create your post</h1>
+    <button onclick="history.back()" class="back" >Back</button>
+      {% with messages = get_flashed_messages(with_categories=True) %}
+      {% if messages %}
+        {% for category, message in messages %}
+         <div class="flash-message">{{ message }}</div>  
+        {% endfor %}
+      {% endif %}
+      {% endwith %} 
+    <form action="{{ url_for('home_page') }}" method="post" class="forms" enctype="multipart/form-data">
+      <label for="title">TITLE</label>
+      <input type="text"id="title" name="title"placeholder="Enter your title here"required><br>
+      <label for="description">DESCRIPTION</label>
+      <textarea name="description" id="description" rows="10"placeholder="Add your contents here" required ></textarea><br>
+      <label for="category">CATEGORY</label>
+      <select name="category">
+        <option value="travel">Travel</option>
+        <option value="food">Food</option>
+        <option value="studies">Studies</option>
+        <option value="ai">AI</option>
+      </select>
+      <label for="image">IMAGE</label>
+      <input type="file" id="image" name="image" accept=image/*>
+      <button class="btn bg-primary" type="submit">Submit</button>  
+    </form>
+  </body>
+</html>
